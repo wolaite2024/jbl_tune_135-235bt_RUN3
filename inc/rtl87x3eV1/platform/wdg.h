@@ -1,0 +1,57 @@
+/**
+*****************************************************************************************
+*     Copyright(c) 2017, Realtek Semiconductor Corporation. All rights reserved.
+*****************************************************************************************
+  * @file    bblite_wrapper.h
+  * @brief   This file provides api wrapper for bbpro compatibility..
+  * @author  sandy_jiang
+  * @date    2018-11-29
+  * @version v1.0
+  * *************************************************************************************
+   * @attention
+   * <h2><center>&copy; COPYRIGHT 2017 Realtek Semiconductor Corporation</center></h2>
+   * *************************************************************************************
+  */
+
+/*============================================================================*
+ *               Define to prevent recursive inclusion
+ *============================================================================*/
+#ifndef __WDG_H_
+#define __WDG_H_
+
+typedef enum _WDG_MODE
+{
+    INTERRUPT_CPU = 0,          /**< Interrupt CPU only */
+    RESET_ALL_EXCEPT_AON = 1,   /**< Reset all except RTC and some AON register */
+    RESET_CORE_DOMAIN = 2,      /**< Reset core domain */
+    RESET_ALL = 3               /**< Reset all */
+} T_WDG_MODE;
+
+/*============================================================================*
+ *                               Header Files
+*============================================================================*/
+#include <stdint.h>
+#include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/**
+   * @brief  Watch Dog Timer Enable / Disable / Restart
+   * @param  type @ref T_WDG_TYPE
+   */
+
+extern bool (*WDG_Start)(uint32_t seconds, T_WDG_MODE  wdg_mode);
+
+extern void (*WDG_Disable)(void);
+
+extern void (*WDG_Kick)(void);
+
+extern void (*chip_reset)(T_WDG_MODE  wdg_mode);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

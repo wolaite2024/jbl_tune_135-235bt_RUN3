@@ -1,0 +1,43 @@
+//-----------------------------------------------------------------------------------------------
+//20250630(v2.10.4.12)
+APP: 48.160.10.88(Commit-Id: c52a95b3dd96fd5b83fcd25d16aed4d2c87f6803)
+
+Sys Patch Commit-Id: 3697dee0b9b29f7fe58fae3f60599b8ba5e45d5e
+
+Stack Patch Commit-Id: c24b926f2ff324b4f02373d4ffbc1f03dd748525
+
+Change Note: 
+# 20250523 T135/235/RUN3 release SDK
+
+branch: customer/stack-patch-v1.0-harman-T520
+code base: 
+c24b926f2ff324b4f02373d4ffbc1f03dd748525
+cherry-pick:
+f78593fc85ab1850af88c13f57cee0f79a5b4ce9,
+
+
+branch: customer/bb2-master-v2.0-harman-T135
+code base: 
+3697dee0b9b29f7fe58fae3f60599b8ba5e45d5e
+cherry-pick:
+6c40032066b49fe18e5c8cc42670fa7979c8e491,
+
+
+branch:   customer/87x3e-sdk-2.10.1.x-harman-T135
+code base: 
+c52a95b3dd96fd5b83fcd25d16aed4d2c87f6803
+cherry-pick: 
+6157c6e4f8015a45fc867ca282d7123e4cd3490b,
+a107c773b86f6d328082bab55754d71053463a4d,
+f8a77a91da8f25a676c8cf07306685d1a8b0638f,
+2f5290eb21bb58943e9da0caf3350d16133b6282,
+198ae69e82ff9d764b453915944d551a67482ab7,
+caf2676580d836c38ef3c2f04155b75d5c7c718c,
+3feea8bdb17260026d716052167b8a8585a8d7da,
+
+OTA Header: 48.160.10.88
+DSP Image: v1.0.2.9
+DspConfigTool: v1.1.3
+MCUConfigTool: v2.6.0
+MPPGTool: v6.1.150.0-harman
+DebugAnalyzer: v4.0.0.25.release

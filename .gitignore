@@ -1,0 +1,9 @@
+pro.si4project/
+pro.si4project/*
+board/evb/rws/objects/
+board/evb/rws/objects/*
+board/evb/rws/listings/
+board/evb/rws/listings/*
+board/evb/rws/bin/
+board/evb/rws/bin/*
+board/evb/rws/target/general/*
