@@ -56,6 +56,7 @@ static const T_APP_CFG_NV app_cfg_rw_default =
 #if F_APP_LE_AUDIO_SM
     .bis_audio_gain_level = 0,
 #endif
+	.spp_disable_tongle_flag = 0,
 };
 
 const uint8_t codec_low_latency_table[9][LOW_LATENCY_LEVEL_MAX] =
@@ -103,6 +104,7 @@ uint32_t app_cfg_reset(void)
     uint8_t temp_xtal_k_times = 0;
     uint8_t temp_vbat_detect_normal = 0;
     uint32_t temp_vbat_ntc_value = 0;
+	uint8_t temp_spp_disable_tongle_flag = 0;
 #if HARMAN_VBAT_ONE_ADC_DETECTION	
 	uint32_t temp_nv_saved_vbat_value;
 	uint32_t temp_nv_saved_vbat_ntc_value;
@@ -125,6 +127,8 @@ uint32_t app_cfg_reset(void)
     temp_xtal_k_times = app_cfg_nv.xtal_k_times;
     temp_vbat_detect_normal = app_cfg_nv.vbat_detect_normal;
     temp_vbat_ntc_value = app_cfg_nv.vbat_ntc_value;
+
+	temp_spp_disable_tongle_flag = app_cfg_nv.spp_disable_tongle_flag;
 
     memcpy(temp_bd_addr, app_cfg_nv.bud_peer_factory_addr, 6);
     memcpy(temp_device_name_legacy, app_cfg_nv.device_name_legacy, 40);
@@ -177,6 +181,7 @@ uint32_t app_cfg_reset(void)
     app_cfg_nv.vbat_detect_normal = temp_vbat_detect_normal;
     app_cfg_nv.vbat_ntc_value = temp_vbat_ntc_value;
 
+	app_cfg_nv.spp_disable_tongle_flag = temp_spp_disable_tongle_flag;
     {
         uint8_t state_of_charge = app_charger_get_soc();
         //Charger module report 0xFF when ADC not ready

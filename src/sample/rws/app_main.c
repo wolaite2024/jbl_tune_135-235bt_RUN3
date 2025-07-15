@@ -1383,11 +1383,12 @@ int main(void)
 
 #if F_APP_HARMAN_FEATURE_SUPPORT
         // app_cfg_const.disallow_adjust_volume_when_idle = true;
-        DBG_DIRECT("version: %d.%d.%d.%d, active_bank: %d, sass_preemptive: 0x%x, finder_support: %d",
+        DBG_DIRECT("version: %d.%d.%d.%d, active_bank: %d, sass_preemptive: 0x%x, finder_support: %d, spp_disable_tongle_flag: %d",
                    VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILDNUM,
                    app_ota_get_active_bank(),
                    app_cfg_nv.sass_preemptive,
-                   extend_app_cfg_const.gfps_finder_support);
+                   extend_app_cfg_const.gfps_finder_support,
+                   app_cfg_nv.spp_disable_tongle_flag);
         app_harman_license_get();
 #endif
 
@@ -1505,7 +1506,11 @@ int main(void)
 #endif
         }
 
-        app_spp_init();
+		if (!app_cfg_nv.spp_disable_tongle_flag)
+		{
+			app_spp_init();
+		}
+
         app_multilink_init();
 
 #if F_APP_ERWS_SUPPORT

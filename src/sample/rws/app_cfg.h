@@ -537,7 +537,7 @@ typedef struct
             uint8_t case_status : 1; // 0:stop beeping, 1: start beeping
         };
     };
-    uint8_t rsv9;
+    uint8_t spp_disable_tongle_flag;
 
     //offset: 0x104
     /* Default audio mode:  256, 53, 150, 230

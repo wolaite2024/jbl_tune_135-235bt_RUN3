@@ -472,6 +472,7 @@ void app_harman_spp_cmd_set_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t c
             app_cfg_nv.total_playback_time = 0;
             app_cfg_nv.total_power_on_time = 0;
             ret = app_cfg_store(&app_cfg_nv.total_playback_time, 8);
+			app_cfg_nv.spp_disable_tongle_flag = 1;
 
             rsp_cmd_len = 1 + sizeof(ret);
             p_rsp_cmd = malloc(rsp_cmd_len);

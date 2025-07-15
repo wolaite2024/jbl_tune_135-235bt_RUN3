@@ -3201,6 +3201,13 @@ void app_mmi_handle_action(uint8_t action)
 
     case MMI_OTA_OVER_BLE_START:
         {
+#if HARMAN_DISABLE_SPP_CMD_AFTER_PRODTCT_TEST_FINISH
+            // need to restart after set this flag
+            APP_PRINT_TRACE1("MMI_OTA_OVER_BLE_START: set SPP tongle flag %d",
+                             app_cfg_nv.spp_disable_tongle_flag);
+            app_cfg_nv.spp_disable_tongle_flag = !app_cfg_nv.spp_disable_tongle_flag;
+            app_cfg_store(&app_cfg_nv.vp_ota_status, 4);
+#else        
             if (app_db.device_state != APP_DEVICE_STATE_OFF)
             {
                 if (app_cfg_nv.bud_role == REMOTE_SESSION_ROLE_PRIMARY ||
@@ -3210,6 +3217,7 @@ void app_mmi_handle_action(uint8_t action)
                     app_audio_tone_type_play(TONE_OTA_OVER_BLE_START, false, true);
                 }
             }
+#endif			
         }
         break;
 
