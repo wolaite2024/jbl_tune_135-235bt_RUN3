@@ -184,6 +184,8 @@
 #define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                0
 #define HARMAN_BONDING_LEGACY_AND_BLE_LINK                  0
 
+#define HARMAN_ONLY_CONN_NEW_DEVICE_WHEN_PAIRING            1
+
 #define HARMAN_DELAY_HANDLE_ADP_OUT_SUPPORT                 0
 #define HARMAN_HW_TIMER_REPLACE_OS_TIMER                    1
 

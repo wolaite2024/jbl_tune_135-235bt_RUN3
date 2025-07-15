@@ -44,6 +44,10 @@
 #include "app_sass_policy.h"
 #endif
 
+#if GFPS_FEATURE_SUPPORT
+#include "gfps.h"
+#endif
+
 #if F_APP_NFC_SUPPORT
 #include "app_nfc.h"
 #endif
@@ -5708,7 +5712,26 @@ static void app_bt_policy_cback(T_BT_EVENT event_type, void *event_buf, uint16_t
 
     case BT_EVENT_ACL_CONN_IND:
         {
-            APP_PRINT_TRACE1("app_bt_policy_cback: conn ind device cod 0x%08x", param->acl_conn_ind.cod);
+			 APP_PRINT_TRACE3("app_bt_policy_cback: conn ind device cod: 0x%08x, bp_state: 0x%x, gfps_status: %d",
+							  param->acl_conn_ind.cod, app_bt_policy_get_state(),
+							  gfps_get_pairing_mode_status());
+
+#if HARMAN_ONLY_CONN_NEW_DEVICE_WHEN_PAIRING
+			 if ((app_bt_policy_get_state() == BP_STATE_PAIRING_MODE) ||
+				 (app_bond_b2s_addr_find(param->acl_conn_ind.bd_addr)) ||
+#if GFPS_FEATURE_SUPPORT
+				 (gfps_get_pairing_mode_status() == 0x02)
+#endif
+				)
+			 {
+				 // Allow to accept the connection
+			 }
+			 else
+			 {
+				 bt_acl_conn_reject(param->acl_conn_ind.bd_addr, BT_ACL_REJECT_SECURITY_REASON);
+			 }
+#endif
+
             p_link = app_find_br_link(param->acl_conn_ind.bd_addr);
             if (p_link != NULL)
             {

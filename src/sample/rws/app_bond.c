@@ -115,6 +115,25 @@ bool app_b2s_bond_addr_get(uint8_t priority, uint8_t *bd_addr)
     return false;
 }
 
+bool app_bond_b2s_addr_find(uint8_t *bd_addr)
+{
+    bool ret = false;
+    uint8_t bond_num = app_b2s_bond_num_get();
+
+    for (uint8_t i = 1; i <= bond_num; i++)
+    {
+        uint8_t addr[6] = {0};
+
+        if (app_b2s_bond_addr_get(i, addr) && !memcmp(addr, bd_addr, 6))
+        {
+            ret = true;
+        }
+    }
+
+    APP_PRINT_TRACE1("app_bond_b2s_addr_find: ret: %d", ret);
+    return ret;
+}
+
 void app_adjust_b2b_bond_priority(void)
 {
     uint8_t i;

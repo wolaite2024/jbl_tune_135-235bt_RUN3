@@ -164,6 +164,8 @@ bool app_bond_key_set(uint8_t *bd_addr, uint8_t *linkkey, uint8_t key_type);
     * @return  void
     */
 void app_adjust_b2b_bond_priority(void);
+bool app_bond_b2s_addr_find(uint8_t *bd_addr);
+
 /** End of APP_BOND
 * @}
 */

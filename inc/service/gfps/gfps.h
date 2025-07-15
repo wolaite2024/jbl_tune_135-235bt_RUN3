@@ -362,6 +362,7 @@ void gfps_set_sass_enable(bool enable);
 
 bool gfps_hmac_sha256(uint8_t *p_encrypted_data, uint8_t data_len,
                       uint8_t p_out[8], uint8_t *p_key, uint8_t key_len);
+uint8_t gfps_get_pairing_mode_status(void);
 
 /** @} */ /* End of group GFPS_Exported_Functions */
 /** End of APP_GFPS
