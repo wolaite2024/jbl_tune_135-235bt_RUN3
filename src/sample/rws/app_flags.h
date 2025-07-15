@@ -181,7 +181,7 @@
 
 #define HARMAN_POWER_DISPLAY_ACCURACY_1_PERCENTAGE_SUPPORT  1
 
-#define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                0
+#define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                1
 #define HARMAN_BONDING_LEGACY_AND_BLE_LINK                  0
 
 #define HARMAN_ONLY_CONN_NEW_DEVICE_WHEN_PAIRING            1
@@ -201,6 +201,7 @@
 
 #define HARMAN_OTA_COMPLETE_NONEED_POWERON                  1
 #define HARMAN_OTA_VERSION_CHECK                            0
+#define HARMAN_OTA_VP_ONLY_VERSION_CHECK                    0
 #define HARMAN_OPEN_LR_FEATURE                              1
 
 #define HARMAN_EXTERNAL_CHARGER_SUPPORT                     1
@@ -238,8 +239,6 @@
 #define HARMAN_SECURITY_CHECK                               1
 #undef  HARMAN_FIND_MY_BUDS_TONE_SUPPORT
 #define HARMAN_FIND_MY_BUDS_TONE_SUPPORT                    0
-#undef  HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT
-#define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                1
 #undef  HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
 #define HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME                  1
 #define HARMAN_VBAT_ONE_ADC_DETECTION                       1
@@ -259,8 +258,6 @@
 #define HARMAN_SUPPORT_WATER_EJECTION                       1
 #undef  HARMAN_BRIGHT_LED_WHEN_ADP_IN
 #define HARMAN_BRIGHT_LED_WHEN_ADP_IN                       1
-#undef  HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT
-#define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                1
 #undef  HARMAN_DELAY_HANDLE_ADP_OUT_SUPPORT
 #define HARMAN_DELAY_HANDLE_ADP_OUT_SUPPORT                 1
 #undef  HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
@@ -269,6 +266,8 @@
 #define HARMAN_SUPPORT_CONNECT_VP_IN_HFP                    1
 #undef  HARMAN_DISCONN_ACTIVE_A2DP_WHEN_OTA
 #define HARMAN_DISCONN_ACTIVE_A2DP_WHEN_OTA                 1
+#undef  HARMAN_OTA_VERSION_CHECK
+#define HARMAN_OTA_VERSION_CHECK                            1
 
 #undef F_APP_SPP_CAPTURE_DSP_DATA
 #define F_APP_SPP_CAPTURE_DSP_DATA                          1

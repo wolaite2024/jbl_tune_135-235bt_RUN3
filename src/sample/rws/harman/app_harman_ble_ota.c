@@ -249,17 +249,32 @@ static bool app_harman_ota_package_ver_check(void)
                     harman_ota_mgr.sub_bin.package_header.ota_version,
                     local_fw_ver, app_cfg_nv.harman_record_ota_version,
                     harman_ota_mgr.sub_bin.package_header.is_vp_only, local_vp_ver);
-    /* TODO: OTA version is larger than local version and same with last OTA */
+    /* only OTA VP */
     if (harman_ota_mgr.sub_bin.package_header.is_vp_only)
     {
-        /* only OTA VP */
         app_harman_ota_breakpoint_clear();
-        // if (harman_ota_mgr.sub_bin.package_header.ota_version < local_vp_ver)
-        // {
-        //     ret = false;
-        // }
+	
+#if HARMAN_OTA_VP_ONLY_VERSION_CHECK
+		if (harman_ota_mgr.sub_bin.package_header.ota_version < local_vp_ver)
+		{
+		 ret = false;
+		}
+#endif
     }
-    else if (harman_ota_mgr.sub_bin.package_header.ota_version >= local_fw_ver)
+#if HARMAN_OTA_VERSION_CHECK
+	 /* check ota package version */
+	 else if (harman_ota_mgr.sub_bin.package_header.ota_version < local_fw_ver)
+	 {
+		 // breakpoint OTA check
+		 ret = false;
+	 }
+#endif
+	else
+	{
+	 	// allowed to proceed OTA
+	}	
+	// breakpoint OTA check
+	if (ret)
     {
         // breakpoint OTA check
         if (app_cfg_nv.harman_record_ota_version == 0x00)
@@ -270,13 +285,9 @@ static bool app_harman_ota_package_ver_check(void)
         else if (harman_ota_mgr.sub_bin.package_header.ota_version != app_cfg_nv.harman_record_ota_version)
         {
             // Not allowed to proceed breakpoint OTA
+            app_harman_ota_breakpoint_clear();
             ret = false;
         }
-    }
-    else
-    {
-        // Not allowed to proceed OTA because of version too lower
-        ret = false;
     }
 
     return ret;
