@@ -3903,6 +3903,11 @@ void app_handle_cmd_set(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path, ui
 #endif
         }
         break;
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+	case CMD_USER_SINGLE_NTC:
+		app_harman_spp_cmd_single_ntc_handle(cmd_ptr, cmd_len, cmd_path, app_idx);
+		break;
+#endif	
 
 #if F_APP_ANC_SUPPORT
     //for ANC command

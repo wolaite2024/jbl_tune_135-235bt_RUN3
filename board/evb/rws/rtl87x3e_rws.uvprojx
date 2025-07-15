@@ -1690,6 +1690,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
             </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -3326,6 +3331,11 @@
               <FileName>app_harman_behaviors.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5015,6 +5025,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
             </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -6702,6 +6717,11 @@
               <FileName>app_harman_behaviors.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -8391,6 +8411,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
             </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -10078,6 +10103,11 @@
               <FileName>app_harman_behaviors.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\src\sample\rws\harman\app_harman_behaviors.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_harman_ntc_const.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\src\sample\rws\harman\app_harman_ntc_const.c</FilePath>
             </File>
           </Files>
         </Group>

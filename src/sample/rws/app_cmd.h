@@ -332,6 +332,9 @@ typedef enum
     CMD_RESET_RWS_KEY_MMI_MAP           = 0x070A,
 
     CMD_VENDOR_SEPC                     = 0x0800, //It has been reserved for vendor customer A, please dont't use this value.
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+	CMD_USER_SINGLE_NTC 				= 0x0801,
+#endif
 
     CMD_DFU_START                       = 0x0900,
 

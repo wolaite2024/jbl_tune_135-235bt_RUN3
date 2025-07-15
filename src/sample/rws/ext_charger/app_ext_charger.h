@@ -17,6 +17,15 @@ extern "C" {
   * @brief
   * @{
   */
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+#define BATTERY_HIGH_TEMP_ERROR_VALUE 				43
+#define BATTERY_HIGH_TEMP_ERROR_VALUE_10K			36
+#define BATTERY_LOW_TEMP_WARN_VALUE 				15
+#define BATTERY_LOW_TEMP_ERROR_VALUE 				2
+
+#define BATTERY_DISCHARGE_LOW_TEMP_ERROR_VALUE 		-18
+#define BATTERY_DISCHARGE_HIGH_TEMP_ERROR_VALUE 	57
+#endif 
 #if HARMAN_T135_SUPPORT || HARMAN_T235_SUPPORT
 #define EXTERNAL_CHARGING_STATUS_DET_PIN      P1_1    /* charging status control */
 #define EXTERNAL_CHARGING_ENABLE_CTL_PIN      P0_1    /* charger enable control */
@@ -134,6 +143,10 @@ uint8_t app_ext_charger_check_status(void);
 void app_ext_charger_ntc_check_timeout(void);
 void app_ext_charger_vbat_is_normal_set(uint8_t enable);
 uint8_t app_ext_charger_vbat_is_normal_get(void);
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+void app_ext_charger_cfg_reload(uint8_t ntc_type);
+uint8_t app_ext_charge_find_index(int16_t temp);
+#endif
 
 /** End of APP_EXTERNAL_CHAGER
 * @}

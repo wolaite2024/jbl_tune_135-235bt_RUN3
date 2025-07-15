@@ -610,6 +610,16 @@ typedef struct
     uint8_t  mic_status_rsvd;
 
     uint8_t  remote_device_vendor_id[8];
+
+#if HARMAN_VBAT_ONE_ADC_DETECTION	
+	uint32_t nv_saved_vbat_value;//存储的电池电压
+	uint32_t nv_saved_vbat_ntc_value;//存储的NTC值
+	uint32_t nv_saved_battery_err;//存储的电池状态
+	uint32_t nv_ntc_resistance_type;//存储的NTC 电阻阻值
+	int nv_ntc_vbat_temperature;//存储的电池温度
+
+	uint32_t ntc_poweroff_wakeup_flag;
+#endif	
 } T_APP_CFG_NV;
 
 /** @brief  Read only configurations for inbox audio application */
@@ -1552,7 +1562,6 @@ typedef struct
     uint16_t power_off_rtc_wakeup_timeout;
     // Range(0, 100)
     uint16_t gfps_finder_adv_skip_count_when_wakeup;
-
 } T_EXTEND_APP_CFG_CONST;
 
 

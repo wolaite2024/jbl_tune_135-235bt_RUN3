@@ -19,12 +19,19 @@ extern "C" {
 
 #define HARMAN_THERMISTOR_PIN                           P0_2
 #define DISCHARGER_NTC_CHECK_PERIOD                     500
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+#undef DISCHARGER_NTC_CHECK_PERIOD
+#define DISCHARGER_NTC_CHECK_PERIOD                     5000
+
+#define BATTERY_DISCREPANCY_VALUE						200//0.1V
+#define BATTERY_NTC_DISCREPANCY_VALUE					55//55mV
+#endif
 
 #if HARMAN_SECOND_NTC_DETECT_PROTECT
 #define HARMAN_THERMISTOR_PIN2                          P0_3
 #endif
 
-#if (HARMAN_SECOND_NTC_DETECT_PROTECT | HARMAN_VBAT_ADC_DETECTION)
+#if (HARMAN_SECOND_NTC_DETECT_PROTECT | HARMAN_VBAT_ADC_DETECTION | HARMAN_VBAT_ONE_ADC_DETECTION)
 #define DISCHARGER_VBAT_CHECK_TOTAL_TIME                1500 // 1.5s
 #define DISCHARGER_VABT_MAX_ADC_DISCREPANCY_VALUE       80
 #endif
@@ -51,6 +58,18 @@ void app_harman_adc_vbat_check_times_clear(void);
 bool app_harman_discharger_ntc_check_valid(void);
 void app_harman_discharger_ntc_timer_start(void);
 #endif
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+typedef enum
+{
+	HARMAN_BATTERY_NOMAL					 = 0x00,
+	HARMAN_BATTERY_ERR_VOLTAGE				 = 0x01,
+	HARMAN_BATTERY_ERR_NTC					 = 0x02,
+} HARMAN_BATTERY_ERR;
+
+void app_harman_adc_saved_nv_data(void);
+
+#endif
+
 
 /** End of APP_HARMAN_ADC_H
 * @}

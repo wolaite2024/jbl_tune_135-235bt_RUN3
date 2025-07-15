@@ -276,6 +276,69 @@ bool app_harman_get_flag_need_clear_total_time(void)
 {
     return need_clear_total_time;
 }
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path,
+                                   uint8_t app_idx)
+{
+    uint16_t cmd_id = (uint16_t)(cmd_ptr[0] | (cmd_ptr[1] << 8));
+    uint8_t sub_cmd_id = cmd_ptr[2];
+    uint16_t payload_len = cmd_len - 3;
+    uint8_t pid_idx = 0;
+    uint8_t cid_idx = 0;
+    uint8_t *p_rsp_cmd = NULL;
+    uint8_t rsp_cmd_len = 0;	
+	
+    if (cmd_path != CMD_PATH_SPP)
+    {
+        return;
+    }    
+    APP_PRINT_INFO4("app_harman_spp_cmd_set_user1_handle: cmd_id 0x%04x, sub_cmd_id: 0x%x, payload_len: 0x%x, app_idx: %d",
+                    cmd_id, sub_cmd_id, payload_len, app_idx);
+    switch (sub_cmd_id)
+    {
+		case HARMAN_SPP_SUB_CMD_BAT_INFO_CLEAR:
+			{
+				app_cfg_nv.nv_saved_vbat_value = 0;
+				app_cfg_nv.nv_saved_vbat_ntc_value = 0;
+				app_cfg_nv.nv_saved_battery_err = 0;
+				app_cfg_nv.nv_ntc_resistance_type = 0;
+				app_cfg_nv.nv_ntc_vbat_temperature = 0;
+				app_cfg_store(&app_cfg_nv.nv_saved_vbat_value, 4);
+				app_cfg_store(&app_cfg_nv.nv_saved_vbat_ntc_value, 4);
+				app_cfg_store(&app_cfg_nv.nv_saved_battery_err, 4);
+				app_cfg_store(&app_cfg_nv.nv_ntc_resistance_type, 4);
+				app_cfg_store(&app_cfg_nv.nv_ntc_vbat_temperature, 4);
+
+	            rsp_cmd_len = 2;
+	            p_rsp_cmd = malloc(rsp_cmd_len);
+	            p_rsp_cmd[0] = cmd_ptr[2]; // sub_cmd_id
+	            p_rsp_cmd[1] = CMD_SET_STATUS_UNKNOW_CMD;					
+			}
+			break;
+
+		case HARMAN_SPP_SUB_CMD_WAKEUP_CLOSE:
+			{
+				app_cfg_nv.ntc_poweroff_wakeup_flag = 1;
+				app_cfg_store(&app_cfg_nv.ntc_poweroff_wakeup_flag, 4);
+				power_mode_set(POWER_POWEROFF_MODE);
+				
+	            rsp_cmd_len = 2;
+	            p_rsp_cmd = malloc(rsp_cmd_len);
+	            p_rsp_cmd[0] = cmd_ptr[2]; // sub_cmd_id
+	            p_rsp_cmd[1] = CMD_SET_STATUS_UNKNOW_CMD;					
+			}
+			break;
+
+        default:
+            break;
+
+    }
+    app_report_event(cmd_path, EVENT_VENDOR_SEPC, app_idx, p_rsp_cmd, rsp_cmd_len);
+    
+	APP_PRINT_INFO2("app_harman_spp_cmd_set_user1_handle %d  wakeup_flag %d",app_cfg_nv.harman_sidetone,app_cfg_nv.ntc_poweroff_wakeup_flag);
+}
+
+#endif
 
 #if HARMAN_SPP_CMD_SUPPORT
 void app_harman_spp_cmd_set_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path,

@@ -28,6 +28,9 @@
 #if HARMAN_USB_CONNECTOR_PROTECT
 #include "app_harman_usb_connector_protect.h"
 #endif
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+#include "app_harman_ntc_const.h"
+#endif
 
 static uint8_t app_ext_charger_timer_queue_id = 0;
 
@@ -69,6 +72,64 @@ APP_CHARGER_STATE(*(ext_charger_charging_state_handler[]))(APP_EXT_CHARGER_EVENT
     app_ext_charger_charging_finish_handler,
     app_ext_charger_charging_error_handler,
 };
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+uint8_t app_ext_charge_find_index(int16_t temp)
+{
+	int i;
+	for(i = 0; i < BATTERY_NTC_MAX_LENGTH; i++)
+	{
+		if(battery_ntc_adc_array[i].temperature == temp)
+		{
+			break;
+		}
+	}
+	return i;
+}
+/*
+* reload ntc values by different ntc line
+*/
+void app_ext_charger_cfg_reload(uint8_t ntc_type)
+{
+	uint8_t temp_index = 0;
+	
+	APP_PRINT_TRACE1("app_ext_charger_cfg_reload param:%d",ntc_type);
+	if(ntc_type == HARMAN_BATTERY_NTC_10K)
+	{
+		temp_index = app_ext_charge_find_index(BATTERY_HIGH_TEMP_ERROR_VALUE_10K);
+	}
+	else
+	{
+		temp_index = app_ext_charge_find_index(BATTERY_HIGH_TEMP_ERROR_VALUE);
+	}
+	ext_charger_cfg.bat_high_temp_warn_voltage = battery_ntc_adc_array[temp_index].bat_ntc_value_array[ntc_type];
+	ext_charger_cfg.bat_high_temp_error_voltage = battery_ntc_adc_array[temp_index].bat_ntc_value_array[ntc_type];
+	temp_index = app_ext_charge_find_index(BATTERY_LOW_TEMP_WARN_VALUE);
+	ext_charger_cfg.bat_low_temp_warn_voltage = battery_ntc_adc_array[temp_index].bat_ntc_value_array[ntc_type];
+	temp_index = app_ext_charge_find_index(BATTERY_LOW_TEMP_ERROR_VALUE);
+	ext_charger_cfg.bat_low_temp_error_voltage = battery_ntc_adc_array[temp_index].bat_ntc_value_array[ntc_type];
+	ext_charger_cfg.bat_temp_hysteresis_voltage = ntc_hysteresis_voltage_array[ntc_type].hysteresis_value;
+	
+    ext_charger_cfg.bat_high_temp_warn_recovery_vol = ext_charger_cfg.bat_high_temp_warn_voltage +
+                                                      ext_charger_cfg.bat_temp_hysteresis_voltage;
+    ext_charger_cfg.bat_low_temp_warn_recovery_vol = ext_charger_cfg.bat_low_temp_warn_voltage -
+                                                     ext_charger_cfg.bat_temp_hysteresis_voltage;
+    ext_charger_cfg.bat_high_temp_error_recovery_vol = ext_charger_cfg.bat_high_temp_error_voltage +
+                                                       ext_charger_cfg.bat_temp_hysteresis_voltage;
+    ext_charger_cfg.bat_low_temp_error_recovery_vol = ext_charger_cfg.bat_low_temp_error_voltage -
+                                                      ext_charger_cfg.bat_temp_hysteresis_voltage;
+
+
+    APP_PRINT_TRACE6("app_ext_charger_cfg_reload: high_warn_voltage: %d, high_error_voltage: %d, "
+                     "low_warn_voltage: %d, low_error_voltage: %d, "
+                     "hysteresis_voltage: %d, recharge_threshold: %d",
+                     ext_charger_cfg.bat_high_temp_warn_voltage,
+                     ext_charger_cfg.bat_high_temp_error_voltage,
+                     ext_charger_cfg.bat_low_temp_warn_voltage,
+                     ext_charger_cfg.bat_low_temp_error_voltage,
+                     ext_charger_cfg.bat_temp_hysteresis_voltage,
+                     ext_charger_cfg.recharge_threshold);	
+}
+#endif
 
 static void app_ext_charger_cfg_load(void)
 {
@@ -109,6 +170,10 @@ static void app_ext_charger_cfg_load(void)
                      ext_charger_cfg.bat_low_temp_error_voltage,
                      ext_charger_cfg.bat_temp_hysteresis_voltage,
                      ext_charger_cfg.recharge_threshold);
+	if(app_cfg_nv.nv_ntc_resistance_type!=0xff && app_cfg_nv.nv_ntc_resistance_type!=0)
+	{
+		app_ext_charger_cfg_reload(app_cfg_nv.nv_ntc_resistance_type);
+	}
 }
 
 static void app_ext_charger_fully_charged_level_get(void)

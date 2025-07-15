@@ -220,6 +220,7 @@
 #undef  HARMAN_EXTERNAL_CHARGER_DZ581_SUPPORT
 #define HARMAN_EXTERNAL_CHARGER_DZ581_SUPPORT               1
 #define HARMAN_VBAT_ADC_DETECTION                           0
+#define HARMAN_VBAT_ONE_ADC_DETECTION                       1
 #undef  HARMAN_SECURITY_CHECK
 #define HARMAN_SECURITY_CHECK                               1
 
@@ -238,6 +239,7 @@
 #define HARMAN_BLE_ENCRYPTED_CONNECT_SUPPORT                1
 #undef  HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
 #define HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME                  1
+#define HARMAN_VBAT_ONE_ADC_DETECTION                       1
 
 #elif HARMAN_PACE_SUPPORT
 #undef  HARMAN_EXTERNAL_CHARGER_DZ582_SUPPORT

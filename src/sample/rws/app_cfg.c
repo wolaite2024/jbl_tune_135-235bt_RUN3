@@ -103,6 +103,13 @@ uint32_t app_cfg_reset(void)
     uint8_t temp_xtal_k_times = 0;
     uint8_t temp_vbat_detect_normal = 0;
     uint32_t temp_vbat_ntc_value = 0;
+#if HARMAN_VBAT_ONE_ADC_DETECTION	
+	uint32_t temp_nv_saved_vbat_value;
+	uint32_t temp_nv_saved_vbat_ntc_value;
+	uint32_t temp_nv_saved_battery_err;
+	uint32_t temp_nv_ntc_resistance_type;
+	int temp_nv_ntc_vbat_temperature;
+#endif
 
     //Keep for restore
     temp_reset_power_on = app_cfg_nv.adp_factory_reset_power_on;
@@ -127,10 +134,25 @@ uint32_t app_cfg_reset(void)
 
     temp_total_playback_time = app_cfg_nv.total_playback_time;
     temp_total_power_on_time = app_cfg_nv.total_power_on_time;
+#if HARMAN_VBAT_ONE_ADC_DETECTION	
+	temp_nv_saved_vbat_value = app_cfg_nv.nv_saved_vbat_value;
+	temp_nv_saved_vbat_ntc_value = app_cfg_nv.nv_saved_vbat_ntc_value;
+	temp_nv_saved_battery_err = app_cfg_nv.nv_saved_battery_err;
+	temp_nv_ntc_resistance_type = app_cfg_nv.nv_ntc_resistance_type;
+	temp_nv_ntc_vbat_temperature = app_cfg_nv.nv_ntc_vbat_temperature;
+#endif	
 
     {
         memcpy(&app_cfg_nv, &app_cfg_rw_default, sizeof(T_APP_CFG_NV));
     }
+
+#if HARMAN_VBAT_ONE_ADC_DETECTION	
+	app_cfg_nv.nv_saved_vbat_value = temp_nv_saved_vbat_value;
+	app_cfg_nv.nv_saved_vbat_ntc_value = temp_nv_saved_vbat_ntc_value;
+	app_cfg_nv.nv_saved_battery_err = temp_nv_saved_battery_err;
+	app_cfg_nv.nv_ntc_resistance_type = temp_nv_ntc_resistance_type;
+	app_cfg_nv.nv_ntc_vbat_temperature = temp_nv_ntc_vbat_temperature;
+#endif
 
     app_cfg_nv.total_playback_time = temp_total_playback_time;
     app_cfg_nv.total_power_on_time = temp_total_power_on_time;

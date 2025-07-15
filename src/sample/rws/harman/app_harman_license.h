@@ -84,6 +84,13 @@ typedef enum _t_app_harman_spp_sub_cmd_id
     HARMAN_SPP_SUB_CMD_CHIP_ID_GET              = 0x23,
     HARMAN_SPP_SUB_CMD_ALGO_STATUS_GET          = 0x24,
 } T_APP_HARMAN_SPP_SUB_CMD_ID;
+#if HARMAN_VBAT_ONE_ADC_DETECTION 
+typedef enum _t_app_harman_spp_single_ntc_cmd_id
+{
+    HARMAN_SPP_SUB_CMD_BAT_INFO_CLEAR           = 0x01,
+	HARMAN_SPP_SUB_CMD_WAKEUP_CLOSE             = 0x02,
+} T_APP_HARMAN_SPP_SINGLE_NTC_CMD_ID;
+#endif 
 
 void app_harman_license_get(void);
 void app_harman_license_init(void);
@@ -94,6 +101,10 @@ uint8_t *app_harman_license_serials_num_get(void);
 bool app_harman_get_flag_need_clear_total_time(void);
 void app_harman_spp_cmd_set_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path,
                                    uint8_t app_idx);
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path,
+								   uint8_t app_idx);
+#endif
 
 #ifdef __cplusplus
 }

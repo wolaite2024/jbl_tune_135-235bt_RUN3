@@ -2125,9 +2125,23 @@ static void app_device_bt_and_ble_ready_check(void)
                 app_dult_handle_stack_ready();
 #endif
 
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+				if (app_db.wake_up_reason & WAKE_UP_RTC)
+				{
+					//APP_PRINT_INFO0("----> app_harman_adc_saved_nv_data111");
+					app_harman_adc_saved_nv_data();
+					//APP_PRINT_INFO0("----> app_harman_adc_saved_nv_data222");
+				}
+#endif
+
+
 #if F_APP_PERIODIC_WAKEUP_RECHARGE
-                if (!extend_app_cfg_const.disable_finder_adv_when_power_off
-                    && app_gfps_finder_provisioned())
+                if (!extend_app_cfg_const.disable_finder_adv_when_power_off && (app_cfg_nv.ntc_poweroff_wakeup_flag==0)
+#if !HARMAN_VBAT_ONE_ADC_DETECTION					
+					&& app_gfps_finder_provisioned()
+#endif                    
+					)
+
                 {
                     uint32_t clock_value_delayed = 0;
                     uint32_t rtc_counter = 0;
@@ -2142,9 +2156,10 @@ static void app_device_bt_and_ble_ready_check(void)
                     power_mode_set(POWER_POWERDOWN_MODE);
                     app_gfps_finder_update_clock_value(clock_value_delayed);
                     if ((app_db.wake_up_reason & WAKE_UP_RTC)
-#if HARMAN_VBAT_ADC_DETECTION
-                        && (app_cfg_nv.rtc_wakeup_count % (extend_app_cfg_const.gfps_finder_adv_skip_count_when_wakeup + 1)
-                            == 0)
+#if (HARMAN_VBAT_ADC_DETECTION|HARMAN_VBAT_ONE_ADC_DETECTION)
+					&& (app_cfg_nv.rtc_wakeup_count % (extend_app_cfg_const.gfps_finder_adv_skip_count_when_wakeup + 1)
+						== 0)
+					&& app_gfps_finder_provisioned()
 #endif
                        )
                     {
@@ -2152,6 +2167,11 @@ static void app_device_bt_and_ble_ready_check(void)
                         app_gfps_finder_handle_event_wakeup_by_rtc();
                     }
                 }
+				if(app_cfg_nv.ntc_poweroff_wakeup_flag != 0)
+				{
+					app_cfg_nv.ntc_poweroff_wakeup_flag = 0;
+					app_cfg_store(&app_cfg_nv.ntc_poweroff_wakeup_flag, 4);
+				}
 #endif
             }
 #endif
@@ -2985,6 +3005,7 @@ void app_device_loss_battery_gpio_driver_init(void)
 
 void app_device_init(void)
 {
+	//app_cfg_nv.ntc_poweroff_wakeup_flag = false;
     ble_mgr_msg_cback_register(app_device_ble_cback);
     sys_mgr_cback_register(app_device_dm_cback);
     bt_mgr_cback_register(app_device_bt_cback);

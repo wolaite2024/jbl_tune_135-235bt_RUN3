@@ -636,6 +636,7 @@ bool app_gfps_finder_provisioned(void)
 
 void app_gfps_finder_handle_event_wakeup_by_rtc(void)
 {
+	APP_PRINT_INFO0("app_gfps_finder_handle_event_wakeup_by_rtc");
     if (p_app_gfps_finder->p_finder->eik.valid)
     {
         T_BLE_EXT_ADV_MGR_STATE adv_state = gfps_finder_get_adv_state();

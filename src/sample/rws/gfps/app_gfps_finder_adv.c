@@ -175,7 +175,11 @@ static void gfps_finder_adv_state_change(T_BLE_EXT_ADV_CB_DATA cb_data)
             wakeup by RTC.*/
             if (app_db.device_state != APP_DEVICE_STATE_ON &&
                 !extend_app_cfg_const.disable_finder_adv_when_power_off
-                && app_gfps_finder_provisioned())
+#if !HARMAN_VBAT_ONE_ADC_DETECTION                
+				&& app_gfps_finder_provisioned()
+#endif                
+				)
+
             {
                 power_mode_set(POWER_POWERDOWN_MODE);
             }
