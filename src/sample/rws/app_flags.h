@@ -191,6 +191,7 @@
 #define HARMAN_HW_TIMER_REPLACE_OS_TIMER                    1
 
 #define HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME                  0
+#define HARMAN_ULTRA_LONG_KEY_SPP_CONTROL                   1
 
 #define HARMAN_REQ_REMOTE_DEVICE_NAME_TIME                  1
 
@@ -266,6 +267,7 @@
 #define HARMAN_SUPPORT_CONNECT_VP_IN_HFP                    1
 #undef  HARMAN_DISCONN_ACTIVE_A2DP_WHEN_OTA
 #define HARMAN_DISCONN_ACTIVE_A2DP_WHEN_OTA                 1
+
 #undef  HARMAN_OTA_VERSION_CHECK
 #define HARMAN_OTA_VERSION_CHECK                            1
 

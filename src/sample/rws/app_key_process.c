@@ -107,9 +107,15 @@
 #define MAPPING_DIRECTION_MCU_TO_PHONE         1
 
 #if HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
-#define SPECAIL_ULTRA_LONG_KEY_ID           6
+#define SPECAIL_ULTRA_LONG_KEY_ID           6  // key1 + key2
 #define SPECAIL_ULTRA_LONG_KEY_TIME         100
 #endif
+
+#if HARMAN_ULTRA_LONG_KEY_SPP_CONTROL
+#define ULTRA_LONG_KEY_SPP_CONTROL          7  // mfb + key1 + key2
+#define ULTRA_LONG_KEY_SPP_CONTROL_TIME     100
+#endif
+
 
 /* App define IO timer type, such as key, uart etc. */
 typedef enum
@@ -2566,22 +2572,24 @@ static void key_check_press(T_KEY_CHECK key_check)
 
                     if (app_cfg_const.key_ultra_long_press_interval != 0)
                     {
+                    	uint16_t ultra_long_press_interval = app_cfg_const.key_ultra_long_press_interval;
 #if HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
                         if (key == SPECAIL_ULTRA_LONG_KEY_ID)
                         {
-                            gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
-                                            key_timer_queue_id,
-                                            APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
-                                            SPECAIL_ULTRA_LONG_KEY_TIME * KEY_TIMER_UNIT_MS);
+							ultra_long_press_interval = SPECAIL_ULTRA_LONG_KEY_TIME;
                         }
                         else
 #endif
+#if HARMAN_ULTRA_LONG_KEY_SPP_CONTROL
+						if (key == ULTRA_LONG_KEY_SPP_CONTROL)
                         {
-                            gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
-                                            key_timer_queue_id,
-                                            APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
-                                            app_cfg_const.key_ultra_long_press_interval * KEY_TIMER_UNIT_MS);
+							ultra_long_press_interval = ULTRA_LONG_KEY_SPP_CONTROL_TIME;
                         }
+#endif
+                        gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
+                                        key_timer_queue_id,
+                                        APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
+                                        ultra_long_press_interval * KEY_TIMER_UNIT_MS);						
                     }
                 }
             }
@@ -2626,22 +2634,24 @@ static void key_check_press(T_KEY_CHECK key_check)
 
                 if (app_cfg_const.key_ultra_long_press_interval != 0)
                 {
+                	uint16_t ultra_long_press_interval = app_cfg_const.key_ultra_long_press_interval;
 #if HARMAN_SPECAIL_ULTRA_LONG_KEY_TIME
                     if (key == SPECAIL_ULTRA_LONG_KEY_ID)
                     {
-                        gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
-                                        key_timer_queue_id,
-                                        APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
-                                        SPECAIL_ULTRA_LONG_KEY_TIME * KEY_TIMER_UNIT_MS);
+						ultra_long_press_interval = SPECAIL_ULTRA_LONG_KEY_TIME;
                     }
                     else
 #endif
+#if HARMAN_ULTRA_LONG_KEY_SPP_CONTROL
+					if (key == ULTRA_LONG_KEY_SPP_CONTROL)
                     {
-                        gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
-                                        key_timer_queue_id,
-                                        APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
-                                        app_cfg_const.key_ultra_long_press_interval * KEY_TIMER_UNIT_MS);
+						ultra_long_press_interval = ULTRA_LONG_KEY_SPP_CONTROL_TIME;
                     }
+#endif
+                    gap_start_timer(&timer_handle_key_ultra_long_press, "key_ultra_long",
+                                    key_timer_queue_id,
+                                    APP_IO_TIMER_KEY_ULTRA_LONG_PRESS, key,
+                                    ultra_long_press_interval * KEY_TIMER_UNIT_MS);					
                 }
 
 #if F_APP_TEAMS_GLOBAL_MUTE_SUPPORT
