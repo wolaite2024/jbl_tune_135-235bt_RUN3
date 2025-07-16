@@ -226,7 +226,13 @@ void app_harman_cfg_reset(void)
     app_cfg_nv.cur_sub_image_relative_offset = 0x00;
     app_cfg_nv.harman_record_ota_version = 0x00;
 
-    memset(&app_cfg_nv.language_version[0], 0, 3);
+#if HARMAN_OTA_VERSION_CHECK
+    uint8_t null[3] = {0x01, 0x00, 0x00};
+#else
+    uint8_t null[3] = {0x00, 0x00, 0x00};
+#endif
+
+    memcpy(&app_cfg_nv.language_version[0], &null[0], 3);
     app_cfg_nv.language_status = 1;
 
     app_cfg_nv.sidetone_switch = sidetone_cfg.hw_enable;
