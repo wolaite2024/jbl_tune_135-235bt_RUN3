@@ -133,8 +133,8 @@ uint32_t app_cfg_reset(void)
     memcpy(temp_bd_addr, app_cfg_nv.bud_peer_factory_addr, 6);
     memcpy(temp_device_name_legacy, app_cfg_nv.device_name_legacy, 40);
     memcpy(temp_device_name_le, app_cfg_nv.device_name_le, 40);
-    memcpy(temp_le_single_random_addr, app_cfg_nv.le_single_random_addr, 6);
-    memcpy(temp_le_rws_random_addr, app_cfg_nv.le_rws_random_addr, 6);
+    //memcpy(temp_le_single_random_addr, app_cfg_nv.le_single_random_addr, 6);
+    //memcpy(temp_le_rws_random_addr, app_cfg_nv.le_rws_random_addr, 6);
 
     temp_total_playback_time = app_cfg_nv.total_playback_time;
     temp_total_power_on_time = app_cfg_nv.total_power_on_time;
@@ -161,8 +161,8 @@ uint32_t app_cfg_reset(void)
     app_cfg_nv.total_playback_time = temp_total_playback_time;
     app_cfg_nv.total_power_on_time = temp_total_power_on_time;
 
-    memcpy(app_cfg_nv.le_single_random_addr, temp_le_single_random_addr, 6);
-    memcpy(app_cfg_nv.le_rws_random_addr, temp_le_rws_random_addr, 6);
+    //memcpy(app_cfg_nv.le_single_random_addr, temp_le_single_random_addr, 6);
+    //memcpy(app_cfg_nv.le_rws_random_addr, temp_le_rws_random_addr, 6);
 
     app_cfg_nv.adp_factory_reset_power_on = temp_reset_power_on;
     if (app_cfg_nv.adp_factory_reset_power_on && temp_power_off_cause_cmd)
