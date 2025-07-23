@@ -1253,6 +1253,18 @@ static bool app_ext_charger_dlps_check_cb(void)
 
     return true;
 }
+void app_ext_charger_current_ctrl_pin_pull_down(void)
+{
+#if HARMAN_RUN3_SUPPORT
+    // to avoid leak of electricity
+    Pad_Config(ext_charger_mgr.current_ctrl_pin1,
+               PAD_SW_MODE, PAD_IS_PWRON, PAD_PULL_DOWN, PAD_OUT_ENABLE, PAD_OUT_LOW);
+    Pad_Config(ext_charger_mgr.current_ctrl_pin2,
+               PAD_SW_MODE, PAD_IS_PWRON, PAD_PULL_DOWN, PAD_OUT_ENABLE, PAD_OUT_LOW);
+	Pad_Config(EXTERNAL_CHARGING_ENABLE_CTL_PIN,
+				PAD_SW_MODE, PAD_IS_PWRON, PAD_PULL_DOWN, PAD_OUT_ENABLE, PAD_OUT_LOW);
+#endif
+}
 
 void app_ext_charger_init(void)
 {

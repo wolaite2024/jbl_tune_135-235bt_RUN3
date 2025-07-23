@@ -249,6 +249,7 @@ void app_dlps_enter_callback(void)
         {
             app_dlps_system_wakeup_by_rtc(wakeup_time);
             DBG_DIRECT("app_dlps_system_wakeup_by_rtc: %d sec, total: %d", wakeup_time, total_wakeup_time);
+			app_ext_charger_current_ctrl_pin_pull_down();
         }
         else
         {

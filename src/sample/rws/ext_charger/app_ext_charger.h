@@ -143,6 +143,8 @@ uint8_t app_ext_charger_check_status(void);
 void app_ext_charger_ntc_check_timeout(void);
 void app_ext_charger_vbat_is_normal_set(uint8_t enable);
 uint8_t app_ext_charger_vbat_is_normal_get(void);
+void app_ext_charger_current_ctrl_pin_pull_down(void);
+
 #if HARMAN_VBAT_ONE_ADC_DETECTION
 void app_ext_charger_cfg_reload(uint8_t ntc_type);
 uint8_t app_ext_charge_find_index(int16_t temp);

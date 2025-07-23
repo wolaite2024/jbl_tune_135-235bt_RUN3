@@ -3207,6 +3207,9 @@ void app_mmi_handle_action(uint8_t action)
                              app_cfg_nv.spp_disable_tongle_flag);
             app_cfg_nv.spp_disable_tongle_flag = !app_cfg_nv.spp_disable_tongle_flag;
             app_cfg_store(&app_cfg_nv.vp_ota_status, 4);
+                        
+            os_delay(20);
+            chip_reset(RESET_ALL);   			
 #else        
             if (app_db.device_state != APP_DEVICE_STATE_OFF)
             {
