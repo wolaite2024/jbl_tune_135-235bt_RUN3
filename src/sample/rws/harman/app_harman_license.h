@@ -89,6 +89,8 @@ typedef enum _t_app_harman_spp_single_ntc_cmd_id
 {
     HARMAN_SPP_SUB_CMD_BAT_INFO_CLEAR           = 0x01,
 	HARMAN_SPP_SUB_CMD_WAKEUP_CLOSE             = 0x02,
+	HARMAN_SPP_SUB_CMD_OPEN_SINGLE_NTC          = 0x03,
+	HARMAN_SPP_SUB_CMD_CLOSE_SINGLE_NTC         = 0x04,
 } T_APP_HARMAN_SPP_SINGLE_NTC_CMD_ID;
 #endif 
 

@@ -16,6 +16,8 @@
 #include "pm.h"
 #include "app_mmi.h"
 #include "app_adp.h"
+#include "app_wdg.h"
+#include "os_sched.h"
 
 #if HARMAN_DSP_LICENSE_SUPPORT
 #include "audio_probe.h"
@@ -277,6 +279,19 @@ bool app_harman_get_flag_need_clear_total_time(void)
     return need_clear_total_time;
 }
 #if HARMAN_VBAT_ONE_ADC_DETECTION
+void app_harman_single_ntc_clear_nv(void)
+{
+	app_cfg_nv.nv_saved_vbat_value = 0;
+	app_cfg_nv.nv_saved_vbat_ntc_value = 0;
+	app_cfg_nv.nv_saved_battery_err = 0;
+	app_cfg_nv.nv_ntc_resistance_type = 0;
+	app_cfg_nv.nv_ntc_vbat_temperature = 0;
+	app_cfg_store(&app_cfg_nv.nv_saved_vbat_value, 4);
+	app_cfg_store(&app_cfg_nv.nv_saved_vbat_ntc_value, 4);
+	app_cfg_store(&app_cfg_nv.nv_saved_battery_err, 4);
+	app_cfg_store(&app_cfg_nv.nv_ntc_resistance_type, 4);
+	app_cfg_store(&app_cfg_nv.nv_ntc_vbat_temperature, 4);	
+}
 void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t cmd_path,
                                    uint8_t app_idx)
 {
@@ -298,17 +313,8 @@ void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, ui
     {
 		case HARMAN_SPP_SUB_CMD_BAT_INFO_CLEAR:
 			{
-				app_cfg_nv.nv_saved_vbat_value = 0;
-				app_cfg_nv.nv_saved_vbat_ntc_value = 0;
-				app_cfg_nv.nv_saved_battery_err = 0;
-				app_cfg_nv.nv_ntc_resistance_type = 0;
-				app_cfg_nv.nv_ntc_vbat_temperature = 0;
-				app_cfg_store(&app_cfg_nv.nv_saved_vbat_value, 4);
-				app_cfg_store(&app_cfg_nv.nv_saved_vbat_ntc_value, 4);
-				app_cfg_store(&app_cfg_nv.nv_saved_battery_err, 4);
-				app_cfg_store(&app_cfg_nv.nv_ntc_resistance_type, 4);
-				app_cfg_store(&app_cfg_nv.nv_ntc_vbat_temperature, 4);
-
+				app_harman_single_ntc_clear_nv();
+			
 	            rsp_cmd_len = 2;
 	            p_rsp_cmd = malloc(rsp_cmd_len);
 	            p_rsp_cmd[0] = cmd_ptr[2]; // sub_cmd_id
@@ -328,6 +334,32 @@ void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, ui
 	            p_rsp_cmd[1] = CMD_SET_STATUS_UNKNOW_CMD;					
 			}
 			break;
+		
+		case HARMAN_SPP_SUB_CMD_OPEN_SINGLE_NTC:
+			{
+				app_cfg_nv.nv_single_ntc_function_flag = 1;
+				app_cfg_store(&app_cfg_nv.nv_single_ntc_function_flag, 4);
+
+				app_harman_single_ntc_clear_nv();
+				
+	            rsp_cmd_len = 2;
+	            p_rsp_cmd = malloc(rsp_cmd_len);
+	            p_rsp_cmd[0] = cmd_ptr[2]; // sub_cmd_id
+	            p_rsp_cmd[1] = CMD_SET_STATUS_UNKNOW_CMD; 					
+			}
+			break;
+
+		case HARMAN_SPP_SUB_CMD_CLOSE_SINGLE_NTC:
+			{
+				app_cfg_nv.nv_single_ntc_function_flag = 0;
+				app_cfg_store(&app_cfg_nv.nv_single_ntc_function_flag, 4);
+
+				app_harman_single_ntc_clear_nv();
+				
+	            os_delay(20);
+	            chip_reset(RESET_ALL);   					
+			}
+			break;
 
         default:
             break;
@@ -335,7 +367,7 @@ void app_harman_spp_cmd_single_ntc_handle(uint8_t *cmd_ptr, uint16_t cmd_len, ui
     }
     app_report_event(cmd_path, EVENT_VENDOR_SEPC, app_idx, p_rsp_cmd, rsp_cmd_len);
     
-	APP_PRINT_INFO2("app_harman_spp_cmd_set_user1_handle %d  wakeup_flag %d",app_cfg_nv.harman_sidetone,app_cfg_nv.ntc_poweroff_wakeup_flag);
+	APP_PRINT_INFO3("app_harman_spp_cmd_set_user1_handle %d  wakeup_flag %d ntc_flag %d",app_cfg_nv.harman_sidetone,app_cfg_nv.ntc_poweroff_wakeup_flag,app_cfg_nv.nv_single_ntc_function_flag);
 }
 
 #endif
@@ -481,6 +513,17 @@ void app_harman_spp_cmd_set_handle(uint8_t *cmd_ptr, uint16_t cmd_len, uint8_t c
 
             app_cfg_nv.need_set_lps_mode = 1;
             app_cfg_nv.ota_parking_lps_mode = OTA_TOOLING_SHIPPING_BOTH;
+
+			/** open single ntc function **/
+			app_cfg_nv.nv_single_ntc_function_flag = 1;
+			app_cfg_store(&app_cfg_nv.nv_single_ntc_function_flag, 4);
+
+			/** clear single ntc saved values **/
+			app_harman_single_ntc_clear_nv();
+
+			/** close poweroff ntc wakeup **/
+			app_cfg_nv.ntc_poweroff_wakeup_flag = 1;
+			app_cfg_store(&app_cfg_nv.ntc_poweroff_wakeup_flag, 4);
 
             power_mode_set(POWER_POWEROFF_MODE);
             app_mmi_handle_action(MMI_DEV_FACTORY_RESET);

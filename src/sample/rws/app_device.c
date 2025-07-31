@@ -2136,11 +2136,14 @@ static void app_device_bt_and_ble_ready_check(void)
 
 
 #if F_APP_PERIODIC_WAKEUP_RECHARGE
-                if (!extend_app_cfg_const.disable_finder_adv_when_power_off && (app_cfg_nv.ntc_poweroff_wakeup_flag==0)
-#if !HARMAN_VBAT_ONE_ADC_DETECTION					
-					&& app_gfps_finder_provisioned()
+#if HARMAN_VBAT_ONE_ADC_DETECTION
+                if ((!extend_app_cfg_const.disable_finder_adv_when_power_off && app_gfps_finder_provisioned()) 
+					|| ((app_cfg_nv.nv_single_ntc_function_flag==1) && (app_cfg_nv.ntc_poweroff_wakeup_flag==0)))				
+#else
+                if (!extend_app_cfg_const.disable_finder_adv_when_power_off			
+					&& app_gfps_finder_provisioned())
 #endif                    
-					)
+					
 
                 {
                     uint32_t clock_value_delayed = 0;

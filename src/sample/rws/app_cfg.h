@@ -619,6 +619,7 @@ typedef struct
 	int nv_ntc_vbat_temperature;//存储的电池温度
 
 	uint32_t ntc_poweroff_wakeup_flag;
+	uint32_t nv_single_ntc_function_flag;
 #endif	
 } T_APP_CFG_NV;
 

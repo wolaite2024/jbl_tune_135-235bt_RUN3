@@ -42,9 +42,9 @@
 #define BANK0_STACK_PATCH_ADDR          0x02048000
 #define BANK0_STACK_PATCH_SIZE          0x00013000  //76K Bytes
 #define BANK0_SYS_PATCH_ADDR            0x0205B000
-#define BANK0_SYS_PATCH_SIZE            0x0000D000  //52K Bytes
-#define BANK0_APP_ADDR                  0x02068000
-#define BANK0_APP_SIZE                  0x00072000  //456K Bytes
+#define BANK0_SYS_PATCH_SIZE            0x0000E000  //56K Bytes
+#define BANK0_APP_ADDR                  0x02069000
+#define BANK0_APP_SIZE                  0x00071000  //452K Bytes
 #define BANK0_DSP_SYS_ADDR              0x020DA000
 #define BANK0_DSP_SYS_SIZE              0x0000D000  //52K Bytes
 #define BANK0_DSP_APP_ADDR              0x020E7000
@@ -70,9 +70,9 @@
 #define BANK1_STACK_PATCH_ADDR          0x02112000
 #define BANK1_STACK_PATCH_SIZE          0x00013000  //76K Bytes
 #define BANK1_SYS_PATCH_ADDR            0x02125000
-#define BANK1_SYS_PATCH_SIZE            0x0000D000  //52K Bytes
-#define BANK1_APP_ADDR                  0x02132000
-#define BANK1_APP_SIZE                  0x00072000  //456K Bytes
+#define BANK1_SYS_PATCH_SIZE            0x0000E000  //56K Bytes
+#define BANK1_APP_ADDR                  0x02133000
+#define BANK1_APP_SIZE                  0x00071000  //452K Bytes
 #define BANK1_DSP_SYS_ADDR              0x021A4000
 #define BANK1_DSP_SYS_SIZE              0x0000D000  //52K Bytes
 #define BANK1_DSP_APP_ADDR              0x021B1000

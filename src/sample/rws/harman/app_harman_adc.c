@@ -269,9 +269,14 @@ static void app_harman_adc_vbat_detect(uint16_t check_time, uint16_t max_discrep
 
 	APP_PRINT_INFO4("---->app_harman_adc_vbat_detect adc2=%d,adc3=%d,bat=%d,charge_mode=0x%x",
 		adc_data_mgr.adc_2_battery,adc_data_mgr.adc_3_battery,adc_data_mgr.voltage_battery,app_ext_charger_vbat_is_normal_get());
-	APP_PRINT_INFO5("---->Read nv data nv_saved_vbat_value=%d nv_saved_vbat_ntc_value=%d saved_bat_err=%d saved_type=%d saved_temper=%d",
-					app_cfg_nv.nv_saved_vbat_value,app_cfg_nv.nv_saved_vbat_ntc_value,app_cfg_nv.nv_saved_battery_err,app_cfg_nv.nv_ntc_resistance_type,app_cfg_nv.nv_ntc_vbat_temperature);	
-
+	APP_PRINT_INFO6("---->Read nv data nv_saved_vbat_value=%d nv_saved_vbat_ntc_value=%d saved_bat_err=%d saved_type=%d saved_temper=%d single_ntc_flag %d",
+					app_cfg_nv.nv_saved_vbat_value,app_cfg_nv.nv_saved_vbat_ntc_value,app_cfg_nv.nv_saved_battery_err,app_cfg_nv.nv_ntc_resistance_type,
+					app_cfg_nv.nv_ntc_vbat_temperature,app_cfg_nv.nv_single_ntc_function_flag);	
+	if(app_cfg_nv.nv_single_ntc_function_flag == 0)
+	{
+		APP_PRINT_INFO0("---->nv_single_ntc_function_flag closed!");
+		return;
+	}
 	if(app_cfg_nv.nv_saved_vbat_value == 0)
 	{
 		/* first used */

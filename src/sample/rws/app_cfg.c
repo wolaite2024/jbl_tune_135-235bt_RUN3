@@ -111,6 +111,7 @@ uint32_t app_cfg_reset(void)
 	uint32_t temp_nv_saved_battery_err;
 	uint32_t temp_nv_ntc_resistance_type;
 	int temp_nv_ntc_vbat_temperature;
+	uint32_t temp_nv_single_ntc_function_flag;
 #endif
 
     //Keep for restore
@@ -144,6 +145,7 @@ uint32_t app_cfg_reset(void)
 	temp_nv_saved_battery_err = app_cfg_nv.nv_saved_battery_err;
 	temp_nv_ntc_resistance_type = app_cfg_nv.nv_ntc_resistance_type;
 	temp_nv_ntc_vbat_temperature = app_cfg_nv.nv_ntc_vbat_temperature;
+	temp_nv_single_ntc_function_flag = app_cfg_nv.nv_single_ntc_function_flag;
 #endif	
 
     {
@@ -156,6 +158,7 @@ uint32_t app_cfg_reset(void)
 	app_cfg_nv.nv_saved_battery_err = temp_nv_saved_battery_err;
 	app_cfg_nv.nv_ntc_resistance_type = temp_nv_ntc_resistance_type;
 	app_cfg_nv.nv_ntc_vbat_temperature = temp_nv_ntc_vbat_temperature;
+	app_cfg_nv.nv_single_ntc_function_flag = temp_nv_single_ntc_function_flag;
 #endif
 
     app_cfg_nv.total_playback_time = temp_total_playback_time;
@@ -433,6 +436,15 @@ void app_cfg_load(void)
             }
         }
     }
+
+#if HARMAN_VBAT_ONE_ADC_DETECTION	
+#if 1//ota	
+		APP_PRINT_INFO0("----> set nv_single_ntc_function_flag");
+		app_cfg_nv.nv_single_ntc_function_flag = 1;
+		app_cfg_store(&app_cfg_nv.nv_single_ntc_function_flag, 4);
+#endif	
+#endif
+
 
 #if F_APP_ERWS_SUPPORT
     app_cfg_const.recovery_link_a2dp_interval = A2DP_INTERVAL;
